@@ -1,0 +1,39 @@
+# Gitignore file for MM_2026
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+env.bak/
+env.bin/
+venv/
+venv.bak/
+venv.bin/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IPython Story
+.ipython/
+
+# macOS system files
+.DS_Store
+
+# Visual Studio Code settings
+.vscode/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+
+# pyenv
+.python-version
