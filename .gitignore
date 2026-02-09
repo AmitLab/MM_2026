@@ -1,0 +1,33 @@
+__pycache__/
+*.pyc
+
+# Data and output directories
+data/
+figures/
+
+# *.h5ad           
+# *.csv             
+# *.xlsx
+# *.pkl 
+
+.env
+.DS_Store
+
+# Jupyter checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+*.log
+
+*.stdout
+*.stderr
+
+# R workspace files
+.RData
+.Rhistory

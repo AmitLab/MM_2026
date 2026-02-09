@@ -1,0 +1,75 @@
+data_loading:
+  version: '20250306'
+  plates:
+    plates_data_path: [ "/home/projects/amit/annaku/data/mm_2023/Blueprint_MM_BM_MARS_Plates_2025-03-06.csv",
+                        "/home/projects/amit/annaku/data/mm_2023/Blueprint_MM_BM_SPID_Plates_2025-03-06.csv",
+                        "/home/projects/amit/annaku/data/mm_2023/Blueprint_MM_Blood_MARS_Plates_2025-03-06.csv",
+                        "/home/projects/amit/annaku/data/mm_2023/Blueprint_MM_Blood_SPID_Plates_2025-03-06.csv"]
+    plate_id_column_name: Amp.Batch.ID
+  sc_sequencing:
+    sc_sequencing_data_dir: [ "/home/projects/amit/eyald/sc_pipeline/scdb_hisat_human_hg38/output/umi.tab",
+                              "/home/projects/amit/eyald/sc_pipeline/scdb_v4_human/output/umi.tab",
+                              "/home/projects/amit/eyald/sc_pipeline/scdb_hisat_human_hg38/output/umi.tab",
+                              "/home/projects/amit/eyald/sc_pipeline/scdb_v4_human/output/umi.tab" ]
+annotation:
+  exclude_blood: True #whether to exclude blood cells from the analysis
+  annotations_file_name: "/home/projects/amit/annaku/data/mm_2023/cells/cells_annotation_20250307.csv" # 'None' - to no load annotaions
+  cell_id_columns_name: 'cID'
+  patient_id_column_name: 'Hospital.Code'
+  major_cell_type_column: 'super_Population'
+  cell_type_column: 'Populations'
+  Disease: 'Disease'
+  biopsy_sequence_column_name: 'Biopsy.Sequence'
+  clinical_data:
+    clinical_data_file_path: '/home/projects/amit/annaku/data/mm_2023/clinical_prediction/Anonymized_CRF_BP_04_05_2025.xlsx' #Anonymized_CRF_BP_11_12_2024.xlsx' # paper: 11_12_2024
+    patient_id_column_name: 'Code'
+    biopsy_sequence_column_name: 'Biopsy sequence No.'
+pp:
+  mitochondrial_gene_patterns: [ "^MT-", #"^MTMR", "^MTND", "^MTRN", "^MRPS", "^MRPL"
+  ]
+  blacklist_genes_pattern_list: [ "^ERCC-","^MTMR","^MTND","^MTRN","^HSP","^MRPS","^MRPL", "^IGJ","^IGH","^IGK", "^IGL",
+                                  "^DNAJ","^IGD","^JCHAIN", "^MALAT1", "^XIST", "^HBA1", "^HBA2", "^HBB", "^HBBP1",
+                                  "^HBD", "^HBE1", "^HBG1", "^HBG2", "^HBM", "^HBQ1", "^HBZ", "^HBZP1" ]
+  min_num_cells_per_gene: 3
+  min_num_genes_per_cell: 100
+  min_num_counts_per_cell: 400
+  max_pct_mt_genes_pre_cell: 40 
+  min_num_good_cells_per_plate: 10
+sc_classification:
+  gene_selection_patterns_blacklist: [ "^AC[0-9]+", "^AL[0-9]+", "^AP[0-9]+", "^AD[0-9]+", "^AF[0-9]+", "-AS[0-9]?$",
+                                       "^MIR[0-9]+", "^LINC[0-9]+", "^MT", "^sno", "^ATP","^HIST", "^HLA-",
+                                       #"^MTMR", "^MTND", "^MTRN", "^MRPS", "^MRPL", #moved from mt list
+                                       "\\.", "-",
+                                       ]
+  use_shuang_var_genes: MARS_SPID_combined # "MARS_SPID_common", None
+scvi_settings:
+  counts_layer_name: "counts"
+  batch_key: "Method"
+  scvi_latent_key: "X_scVI"
+  neighborhood_key: 'None'
+  only_pc_scvi_latent_key: "pc_X_scVI"
+  only_pc_neighborhood_key: "pc"
+  counts_imputation_batch: "SPID"
+  pc_expression_layer: "only_pc_scvi_expr"
+umap_settings:
+  knn_k: 30
+  umap_min_dist: 0.3
+annotation_prediction:
+  indication_col_name: "Predicted"
+  global_manifold:
+    leiden_resolution: 0.2
+  within_pc:
+    leiden_resolution: 1
+    min_counts_pc: None  # for no extra filter: None
+  within_tme:
+    k: 35
+  pc_vs_tme:
+    k: 55
+outputs:
+  add_timestamp: True
+  output_dir: /home/projects/amit/annaku/repos/Blueprint/data/processed
+  logging_file_name: log.log
+  loaded_adata_file_name: raw_adata.h5ad
+  processed_adata_file_name: pp_adata.h5ad
+  inferred_missing_annotation_file_name: adata_with_scvi_annot_pred.h5ad
+  scvi_model_prefix: scvi_model
