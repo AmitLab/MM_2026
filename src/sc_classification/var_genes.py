@@ -31,10 +31,10 @@ def shuang_genes_to_keep(genes_names: Iterable[str], flavor: str) -> Optional[Li
     if flavor == "None":
         return None
     elif flavor == 'MARS_SPID_common':
-        common_mars_spid_genes_shuang = pd.read_csv('/home/projects/amit/noamsh/data/mm_2023/feats/common_genes.csv')
+        common_mars_spid_genes_shuang = pd.read_csv('/home/projects/amit/annaku/data/mm_2023/feats/common_genes.csv')
         allowed_genes = list(common_mars_spid_genes_shuang["0"])
     elif flavor == 'MARS_SPID_combined':
-        combined_mars_spid_genes_shuang = pd.read_csv('/home/projects/amit/noamsh/data/mm_2023/feats/combined_genes.csv')
+        combined_mars_spid_genes_shuang = pd.read_csv('/home/projects/amit/annaku/data/mm_2023/feats/combined_genes.csv')
         allowed_genes = list(combined_mars_spid_genes_shuang["0"])
     else:
         raise ValueError("value in flavor not supported,"

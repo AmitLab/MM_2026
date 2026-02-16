@@ -79,7 +79,7 @@ def extract_samples_metadata(adata: ad.AnnData, metadata_cols, split_by_method=T
     if generate_architype_id:
         if not split_by_method:
             raise ValueError(
-                "cannot create architype id with seperation of samples by method, use split_by_method=True")
+                "cannot create archetype id with separation of samples by method, use split_by_method=True")
         all_samples['PID'] = 'z.' + all_samples['Method'].astype(str) + '_malignant_' + all_samples[
             'Hospital.Code'].astype(str)
         all_samples['PID'] = all_samples['PID'].str.lower()
@@ -91,7 +91,7 @@ def extract_samples_metadata(adata: ad.AnnData, metadata_cols, split_by_method=T
     if generate_hl_architype_id:
         if not split_by_method:
             raise ValueError(
-                "cannot create architype id with seperation of samples by method, use split_by_method=True")
+                "cannot create archetype id with separation of samples by method, use split_by_method=True")
         all_samples['PID_Healthy_Like'] = 'z.' + all_samples['Method'].astype(str) + '_healthy_like_' + all_samples[
             'Hospital.Code'].astype(str)
         all_samples['PID_Healthy_Like'] = all_samples['PID_Healthy_Like'].str.lower()

@@ -27,7 +27,8 @@ annotation:
 pp:
   mitochondrial_gene_patterns: [ "^MT-", #"^MTMR", "^MTND", "^MTRN", "^MRPS", "^MRPL"
   ]
-  blacklist_genes_pattern_list: [ "^ERCC-","^MTMR","^MTND","^MTRN","^HSP","^MRPS","^MRPL", "^IGJ","^IGH","^IGK", "^IGL",
+  blacklist_genes_pattern_list: [ "^ERCC-",#"^MTMR","^MTND","^MTRN",
+                              "^HSP","^MRPS","^MRPL", "^IGJ","^IGH","^IGK", "^IGL",
                                   "^DNAJ","^IGD","^JCHAIN", "^MALAT1", "^XIST", "^HBA1", "^HBA2", "^HBB", "^HBBP1",
                                   "^HBD", "^HBE1", "^HBG1", "^HBG2", "^HBM", "^HBQ1", "^HBZ", "^HBZP1" ]
   min_num_cells_per_gene: 3

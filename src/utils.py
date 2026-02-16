@@ -86,9 +86,6 @@ def calculate_features_ms_percentile(exp_tpm_log, genesets_ms_dict, way='median'
     return Features
 
 def intersect_series_with_index(index: pd.Index, data: pd.Series) -> pd.Series:
-    """
-    returns series intersected with given index
-    """
     aligned_series = data.loc[index.intersection(data.index)]
     return aligned_series
 
@@ -173,24 +170,26 @@ def calculate_cdf(s: pd.Series):
     return s.sort_values().cumsum() / s.sum()
 
 def median_scale(data, mask=None, axis=0):
-    from statsmodels.robust.scale import mad
-
     if mask is not None:
-        filtered_data = data.reindex(data.index & mask[~mask].index)
+        exclude_idx = mask[~mask].index
+        ref = data.reindex(data.index.intersection(exclude_idx))
     else:
-        filtered_data = data
+        ref = data
 
-    median_value = 1.0 * filtered_data.median(axis=axis)
+    center = ref.median(axis=axis)
 
     if isinstance(data, pd.Series):
-        mad_value = 1.0 * mad(filtered_data.dropna())
-        scaled_data = data.sub(median_value).div(mad_value)
+        spread = mad(ref.dropna())
+        if spread == 0:
+            spread = 1.0
+        result = (data - center) / spread
     else:
-        opposite_axis = (axis + 1) % 2 
-        mad_values = 1.0 * filtered_data.apply(lambda x: mad(x.dropna()), axis=axis)
-        scaled_data = data.sub(median_value, axis=opposite_axis).div(mad_values, axis=opposite_axis)
+        broadcast_axis = (axis + 1) % 2
+        spread = ref.apply(lambda col: mad(col.dropna()), axis=axis)
+        spread = spread.replace(0, 1.0)
+        result = data.sub(center, axis=broadcast_axis).div(spread, axis=broadcast_axis)
 
-    return scaled_data
+    return result
 
 def weights_multipl_run(exp, coef_df):
     # coed_df - dataframe, where indexes are genes, columns are features, values are weights
