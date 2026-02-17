@@ -1,15 +1,9 @@
 library(foreach)
-library(Matrix)
-library(ggrepel)
 library(ggplot2)
 library(ggpubr)
 library(cowplot)
 library(doParallel)
-library(plyr)
-library(MASS)
 library(NMF)
-library(circlize)
-library(plotly)
 library(reshape2)
 
 setwd('/home/projects/amit/annaku/repos/Blueprint/scripts')
@@ -96,8 +90,6 @@ nruns <- 100
 min_k <- 4
 max_k <- 15
 
-library(doParallel)
-registerDoParallel(cores = 30)
 getDoParWorkers()
 
 gpct = 1 
