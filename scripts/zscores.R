@@ -335,7 +335,7 @@ dat[dat > fc_cut] <- fc_cut
 dat[dat < -fc_cut] <- -fc_cut
 print(dim(dat))
 
-# excl hip is any
+# excl hip if any
 dat_mean <- dat_mean[, !grepl("hip", colnames(dat_mean), ignore.case = TRUE)]
 
 write.table(dat, paste0(data_path, '/zstat_Atlas_v_', VERSION, '_full_samplelevel_preproc.txt'),
